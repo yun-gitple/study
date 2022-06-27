@@ -1,0 +1,73 @@
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model BDAY_CUST {
+  ID                        BigInt                      @id @default(autoincrement()) @db.UnsignedBigInt
+  CUST_NM                   String                      @db.VarChar(256)  /// @encrypted <- fields to encrypt (must be a String)
+  DEL_YN                    Boolean                     @default(false) @db.Bit(1)
+  MY_CODE                   String                      @db.VarChar(256)  // my unique code for recommendation to others. Alphabet 6 length (2022/6)
+  RCMND_CODE                String?                     @db.VarChar(256)
+  IS_MYDATA_CONNECTED       Boolean                     @default(false)
+}
+
+model BDAY_EVENT_DEF {
+  ID	                    BigInt          @id @default(autoincrement()) @db.UnsignedBigInt
+  CODE             				String          @db.VarChar(20)   // 2207_VIRAL
+  TITLE                   String          @db.VarChar(256)  // "Starbucks Gift"
+  URLS                    Json?           @db.Json  // { main: "a.b.c", tip: "c.d.f", ... }
+  DESCS                   Json?           @db.Json  // { main-head: "first come, first served", main-center:"If you connect to the assets, the Starbucks coffee is given!", detail-tip: "If you recommend someone, ...", }
+  OP_GUIDE                Json            @db.Json  // { title: "Please make sure of below", item1: "You can signup only once", item2:"total event count is ...", }                   
+  TOT_SIGNUP_CNT          Int?
+  CUR_SIGNUP_CNT          Int             // this should be less or equal to the total count
+  DATE_START	            DateTime				@db.DateTime
+  DATE_END                DateTime				@db.DateTime
+  TERM_ID                 BigInt          @db.UnsignedBigInt
+  ACTS                    Json?           @db.Json  // ["Asset_Connect", ...]	
+  CRT_ID                  String          @db.VarChar(20)
+  CRT_DT                  DateTime        @default(now()) @db.DateTime(0)
+  MDF_ID                  String          @db.VarChar(20)
+  MDF_DT                  DateTime        @default(now()) @db.DateTime(0)
+  BDAY_TERMS              BDAY_TERMS      @relation(fields: [TERM_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
+ BD_CUST_EVENT            BDAY_CUST_EVENT[]
+  // Terms	Id	--> link to Terms table						
+  // Activities	String[]	--> ["Asset_Connection", ...]		
+}
+
+model BDAY_CUST_EVENT {
+  ID	                    BigInt          @id @default(autoincrement()) @db.UnsignedBigInt					
+  CUST_ID	                BigInt     
+  EVENT_ID	              BigInt					
+  RCMND_CODE             	String	        @db.VarChar(256) // belongs to BDAY_CUST's MY_CODE						
+  TERM_AGREE  	          Boolean					@default(false)    
+  ACTS                    Json?	          @db.Json // {"Asset-Connect":10, ...}
+  DATE_COMPLETE           DateTime?			  @db.DateTime //If it does not exist, the completion is not done
+  EVENT_DEF               BDAY_EVENT_DEF  @relation(fields: [EVENT_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model BDAY_TERMS {
+  ID               BigInt             @id @default(autoincrement()) @db.UnsignedBigInt
+  TERM_ID          String             @db.VarChar(60)
+  KIND             String             @db.VarChar(500)
+  VER              String             @db.VarChar(60)
+  REQUIRED         Boolean
+  LABEL            String             @db.VarChar(150)
+  URL              String             @db.VarChar(500)
+  IS_SINGLE_TIME   Boolean            @default(true)
+  TYPE             String             @db.VarChar(8)
+  CATEGORY         String             @default("etc") @db.VarChar(150)
+  CRT_ID           String             @db.VarChar(20)
+  CRT_DT           DateTime           @default(now()) @db.DateTime(0)
+  MDF_ID           String             @db.VarChar(20)
+  MDF_DT           DateTime           @default(now()) @db.DateTime(0)
+  EVENT_DEF        BDAY_EVENT_DEF[]
+}
+
