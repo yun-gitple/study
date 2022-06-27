@@ -1,0 +1,69 @@
+
+generator erd {
+  provider = "prisma-erd-generator"
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model BDAY_CUST {
+  ID                        BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
+  MY_CODE                   String              @unique @db.VarChar(256)  // my unique code for recommendation to others. Alphabet 6 length (2022/6)
+  RCMND_CODE                String?             @db.VarChar(256)
+  BD_CUST_EVENT             BDAY_CUST_EVENT[]
+  BDAY_CUST_TERMS           BDAY_CUST_TERMS[]
+}
+
+model BDAY_EVENT_DEF {
+  ID	                    BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
+  CODE             				String                @unique @db.VarChar(256) // 220701_VIRAL_STARTBUCKS
+  TITLE                   String                @db.VarChar(256)  // "Starbucks Gift"
+  IMAGE_URLS              Json?                 @db.Json  // { main: "a.b.c", tip: "c.d.f", ... }
+  DESCS                   Json?                 @db.Json  // { main_head: "first come, first served", main_center:"If you connect to the assets, the Starbucks coffee is given!", detail_tip: "If you recommend someone, ...", }
+  OP_GUIDE                Json                  @db.Json  // { title: "Please make sure of below", item1: "You can signup only once", item2:"total event count is ...", }                   
+  TOT_SIGNUP_CNT          Int
+  CUR_SIGNUP_CNT          Int                   // this should be less or equal to the total count
+  DATE_START	            DateTime		      		@db.DateTime
+  DATE_END                DateTime		      		@db.DateTime
+  TERM_ID                 BigInt                @db.UnsignedBigInt
+  CONDITIONS_START        Json?                 @db.Json  // { "when_signup": "> 202207", ...}	"asset_connect" should be handled as enum type at programming side
+  CONDITIONS_END          Json?                 @db.Json  // {"asset_connect": "> 1", ...}	"asset_connect" should be handled as enum type at programming side
+  DATE_COMPLETE           DateTime?             @db.DateTime  //If null, the event is active
+  CRT_ID                  String                @db.VarChar(20)
+  CRT_DT                  DateTime              @default(now()) @db.DateTime(0)
+  MDF_ID                  String                @db.VarChar(20)
+  MDF_DT                  DateTime              @default(now()) @db.DateTime(0)
+  BDAY_TERMS              BDAY_TERMS            @relation(fields: [TERM_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
+  BDDAY_CUST_EVENTS       BDAY_CUST_EVENT[]
+}
+
+model BDAY_CUST_EVENT {
+  ID	                    BigInt                @id @default(autoincrement()) @db.UnsignedBigInt					
+  CUST_ID	                BigInt     
+  EVENT_CODE	            String					      @db.VarChar(256)
+  RCMND_CODE             	String	              @db.VarChar(256) // belongs to BDAY_CUST's MY_CODE						
+  CONDITIONS_END_STATUS   Json?	                @db.Json      // {"asset_connect":true, ...}
+  DATE_COMPLETE           DateTime?			        @db.DateTime  //If null, the event is not signed up yet
+  CUST                    BDAY_CUST             @relation(fields: [CUST_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
+  EVENT_DEF               BDAY_EVENT_DEF        @relation(fields: [EVENT_CODE], references: [CODE], onUpdate: NoAction)
+}
+
+model BDAY_TERMS {
+  ID               BigInt               @id @default(autoincrement()) @db.UnsignedBigInt
+  TERM_ID          String               @db.VarChar(60)
+  EVENT_DEF        BDAY_EVENT_DEF[]
+  CUST_TERMS       BDAY_CUST_TERMS[]
+}
+
+model BDAY_CUST_TERMS {
+  ID           BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  CUST_ID      BigInt   @db.UnsignedBigInt
+  BDAY_TERM_ID BigInt   @db.UnsignedBigInt
+  AGR_YN       Boolean
+
+  BDAY_CUST  BDAY_CUST  @relation(fields: [CUST_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
+  BDAY_TERMS BDAY_TERMS @relation(fields: [BDAY_TERM_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
+}
