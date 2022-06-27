@@ -1,0 +1,92 @@
+@hostname = http://127.0.0.1
+@port = 3000
+@globalprefix =
+@host = {{hostname}}:{{port}}/{{globalprefix}}
+# @host = https://app.betterday.co.kr/api/v1
+# @host = https://app.betterday.finset.io/api/v1
+
+
+### LOGIN
+# @name adminlogin
+
+POST {{host}}app
+Content-Type: application/json; charset=UTF-8
+
+{
+  "name": "yun-cat",
+  "age": 2,
+  "breed": "korean"
+}
+###
+
+GET {{host}}app
+Content-Type: application/json; charset=UTF-8
+###
+
+GET {{host}}dog
+Content-Type: application/json; charset=UTF-8
+###
+
+GET {{host}}app/dog
+Content-Type: application/json; charset=UTF-8
+###
+
+
+POST {{host}}app/dog/vaccine
+Content-Type: application/json; charset=UTF-8
+
+{
+  "count": 3
+}
+###
+
+
+GET {{host}}app/dog/vaccine
+Content-Type: application/json; charset=UTF-8
+###
+
+
+POST {{host}}dog/vaccine
+Content-Type: application/json; charset=UTF-8
+
+{
+  "count": 3
+}
+###
+
+
+GET {{host}}dog/vaccine
+Content-Type: application/json; charset=UTF-8
+###
+
+
+GET {{host}}dog/breed
+Content-Type: application/json; charset=UTF-8
+###
+
+
+@admin-access-token = {{adminlogin.response.body.$.token.access_token}}
+
+### Send notification
+# "card_approval", "deposit_maturity", "fin_asset_change", "recurring_deposit", "real_estate_change","crypto_asset_change", "fundora_approval"
+# "reserve_time": "2022-05-31T21:00:47.528"
+POST {{host}}/admin/notifications/send
+Content-Type: application/json
+Authorization: Bearer {{admin-access-token}}
+
+{
+  "cust_ids": [1, 2],
+  "type": "NOTIF",
+  "category": "BETTERDAY",
+  "sub_category": "card_approval",
+  "title": "test message",
+  "content": "jongha first send message test!",
+  "image_url": "https://google.com"
+}
+
+### Get notification
+# GET ALL /admin/notification-users
+# GET SELECT /admin/notification-users?select=id&filter=category||eq||BETTERDAY
+Get {{host}}/admin/notification-users?select=id&filter=category||eq||BETTERDAY
+Content-Type: application/json
+Authorization: Bearer {{admin-access-token}}
