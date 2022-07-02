@@ -1,0 +1,62 @@
+@hostname = http://127.0.0.1
+@port = 3100
+@globalprefix = ''
+# @globalprefix = api/v1
+@host = {{hostname}}:{{port}}
+# @host = https://app.betterday.co.kr/api/v1
+# @host = https://app.betterday.finset.io/api/v1
+
+
+### LOGIN
+# @name adminlogin
+
+GET {{host}}/queue/jobs
+Content-Type: application/json; charset=UTF-8
+
+###
+
+@admin-access-token = {{adminlogin.response.body.$.token.access_token}}
+
+### Send notification
+# "card_approval", "deposit_maturity", "fin_asset_change", "recurring_deposit", "real_estate_change","crypto_asset_change", "fundora_approval"
+# "reserve_time": "2022-05-31T21:00:47.528"
+POST {{host}}/admin/notifications/send
+Content-Type: application/json
+Authorization: Bearer {{admin-access-token}}
+
+{
+  "cust_ids": [1, 2],
+  "type": "NOTIF",
+  "category": "BETTERDAY",
+  "sub_category": "card_approval",
+  "title": "test message",
+  "content": "jongha first send message test!",
+  "image_url": "https://google.com"
+}
+
+### Get notification
+# GET ALL /admin/notification-users
+# GET SELECT /admin/notification-users?select=id&filter=category||eq||BETTERDAY
+Get {{host}}/admin/notification-users?select=id&filter=category||eq||BETTERDAY
+Content-Type: application/json
+Authorization: Bearer {{admin-access-token}}
+
+### Create Event
+POST {{host}}/admin/event
+Content-Type: application/json
+Authorization: Bearer {{admin-access-token}}
+
+{
+  "code": "220901_VIRAL_STARTBUCKS",
+  "title": "Starbucks Gift",
+  "descs": {"image_url": {"top": "better.gitple.png", "middile": "better.gift.png"}, 
+            "desc": {"top": "first come, first served", "bottom": "better day!"}, 
+            "guide_line": {"title": "This should be minded", "1": "limit 1000"}
+          },
+  "total_signup_count": 1000,
+  "start_date": "2022-07-01T00:00:00",
+  "end_date": "2022-07-01T00:00:00",
+  "term_id": 3,
+  "start_conditions": {"time_signup": "> 20220701"},
+  "end_conditions": {"connect_asset": "> 1", "perform_diag": true}
+}
