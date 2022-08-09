@@ -1,4 +1,4 @@
-function a() {
+function date_a() {
   const date0 = new Date('2022/07/01');       //KST로 인식
   const date1 = new Date('2022/07/01T00:30'); //KST로 인식
   const date11 = new Date('2022/07/01 00:30'); //KST로 인식
@@ -12,9 +12,9 @@ function a() {
   console.log('date2: ', date2, ", zone: ", new Date(date2.toLocaleString("en-US", {timeZone: "Asia/Seoul"})));
   console.log('date3: ', date3, ", zone: ", new Date(date3.toLocaleString("en-US", {timeZone: "Asia/Seoul"})));
   console.log('date33: ', date33, ", zone: ", new Date(date33.toLocaleString("en-US", {timeZone: "Asia/Seoul"})));
-}
+};
 
-function b() {
+function date_b() {
 
   const date0 = new Date('2022/06/01');       //KST로 인식
   const date00 = new Date('20220601');       //KST로 인식
@@ -25,6 +25,9 @@ function b() {
   console.log('date1: ', date1, ', getTime: ', date1.getTime());
 }
 
-a();
-console.log('~~~~~~~~~~~~~');
-b();
+// date_a();
+// console.log('~~~~~~~~~~~~~');
+// date_b();
+
+const firstT = Date.now();
+console.log('~~~~ time stamp: ', firstT, ', ', Date.now() - firstT);

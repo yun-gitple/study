@@ -1,0 +1,52 @@
+{
+  "amountAssets": 463058438,
+  "amountPastAssets": -96915423,
+  "amountLoan": 100000000,
+  "amountPastLoan": 100325796,
+  "statistics": {
+    "category1": 2,
+    "category2": 0,
+    "category3": 0,
+    "category4": 0,
+    "category5": 0
+  },
+  "accounts": [{
+    "seq": 6829,
+    "account": "3650021879462",
+    "organization": "주식회사 카카오뱅크",
+    "organizationCode": "A1AAHJ0000",
+    "currency": null,
+    "balance": 50000000,
+    "product": "신용대출"
+  }, {
+    "seq": 6830,
+    "account": "3650021879570",
+    "organization": "주식회사 카카오뱅크",
+    "organizationCode": "A1AAHJ0000",
+    "currency": null,
+    "balance": 50000000,
+    "product": "신용대출"
+  }],
+  "fluctuations": [{
+    "organization": "주식회사 카카오뱅크",
+    "organizationCode": "A1AAHJ0000",
+    "product": "신용대출",
+    "currBalance": "50000000",
+    "pastBalance": "50000000",
+    "currLoanRate": "4.362",
+    "pastLoanRate": "3.836",
+    "expiration": "2022-09-08T00:00:00+00:00"
+  }, {
+    "organization": "주식회사 카카오뱅크",
+    "organizationCode": "A1AAHJ0000",
+    "product": "신용대출",
+    "currBalance": "50000000",
+    "pastBalance": "50000000",
+    "currLoanRate": "4.362",
+    "pastLoanRate": "3.836",
+    "expiration": "2022-09-08T00:00:00+00:00"
+  }],
+  "arrears": [],
+  "riskySTCardLoans": [],
+  "riskyLTCardLoans": []
+}

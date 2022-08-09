@@ -16,6 +16,16 @@ Content-Type: application/json; charset=UTF-8
 {
   "name": "event"
 }
+
+### LOGIN
+
+POST {{host}}/cron/decode
+Content-Type: application/json; charset=UTF-8
+
+{
+  "data": "AjWPFYqbler3McOjv//m0gcPH30V4cfe1UbFUXWZZkSacSZMkCzWoLB1tEiuKANubfzejwdBMk4NffPgjKw2kQ=="
+}
+
 ###
 
 @admin-access-token = {{adminlogin.response.body.$.token.access_token}}

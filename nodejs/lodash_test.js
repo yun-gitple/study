@@ -1,6 +1,44 @@
+const { merge } = require('lodash');
 const _  = require('lodash');
 
-b();
+// f();
+
+function f() {
+
+  const defEndConds = { asset_connect: '>= 1' };
+  const defAssetConnect = _.get(defEndConds, 'asset_connect');
+  console.log('~~~ def: ', defAssetConnect, Number(defAssetConnect.split(' ')[1]));
+  const value = Number(defAssetConnect.split(' ')[1].trim());
+  console.log('~~~ value: ', value);
+}
+
+function e() {
+
+  const data = {
+    ID: 1n,
+    TERM_ID: 3n,
+    START_CONDS: { signup_start: '>= 2022-07-01T00:00:00', asset_ever_connect: false }
+  }
+
+  console.log('~~~ data: ', data);
+  console.log('~~~ signup_start: ', _.get(data.START_CONDS, 'signup_start'));
+  console.log('~~~ asset_ever_connect: ', _.get(data.START_CONDS, 'asset_ever_connect'));
+}
+
+function d() {
+  let completeData = { COMPLETE_DT: new Date() };
+  let statusData = { END_CONDS_STATUS: 'endCondsStatus' };
+  let data = { data: _.merge (completeData, statusData) };
+  
+
+  console.log('~~~ merged: ', _.merge(completeData, statusData) );
+  console.log('~~~ merged data: ', data );
+}
+
+function c() {
+  const data = 'abcd';
+  console.log('~~~ array: ', _.toArray(data));
+}
 
 function b() {
   // console.log(_.isEmpty(null)); //true
@@ -88,3 +126,13 @@ console.log('where merged:', _.merge(customQuery.where, specificIndustry));
 }
 
 
+merge1();
+
+function merge1() {
+  const updateData = {};
+  _.merge(updateData, { TITLE: 'title' });
+  _.merge(updateData, { DESCS: { guilde: { "1": "merge is good!"}} });
+  _.merge(updateData, { END_DT: new Date() });
+
+  console.log('~~~ update: ', updateData);
+}

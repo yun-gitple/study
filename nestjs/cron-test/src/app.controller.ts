@@ -14,4 +14,9 @@ export class AppController {
   startEvent(@Body() job: any): boolean {
     return this.appService.executeJob(job?.name);
   }
+
+  @Post('decode')
+  decode(@Body() data: any) {
+    console.log('~~~ decode: ', data);
+  }
 }
