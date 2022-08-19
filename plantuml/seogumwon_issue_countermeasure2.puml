@@ -1,0 +1,20 @@
+@startuml private mydata oauth
+
+title 서금원 보안 이슈 대안 2
+skinparam sequenceMessageAlign center
+
+box 서금원 App 영역
+participant "서금원 App" as SeoApp #LightBlue
+participant "베러 Webview" as BetterWeb
+database "storage\n(local, secure, etc.)" as Storage
+end box
+
+participant "베러 Backend" as BetterBack
+
+SeoApp -> BetterWeb: webview(서금원 고객NO)
+BetterWeb -> BetterWeb: 본인인증
+BetterWeb -> Storage: <color #RED>ci, 서금원 고객 NO</color> 저장
+note over Storage: 서금원 App에서 storage를 허용할지 문의 필요
+BetterWeb -> BetterBack: <color #RED>ci, 서금원 고객 NO</color>로 신뢰성 검증 요청
+
+@enduml

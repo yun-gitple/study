@@ -1,0 +1,18 @@
+@startuml private mydata oauth
+
+title 서금원 보안 이슈
+skinparam sequenceMessageAlign center
+
+box 서금원 App 영역
+participant "서금원 App" as SeoApp #LightBlue
+participant "베러 Webview" as BetterWeb 
+end box
+
+participant "베러 Backend" as BetterBack
+
+SeoApp -> BetterWeb: webview(서금원 고객NO)
+
+BetterWeb -[#Red]> BetterBack: <color #RED>validate(서금원 고객NO)</color>
+note over BetterBack: <color #RED>보안 이슈</color>\n베러 Webview에서 온 요청인지 신뢰할 수 없음,\n원래안인 user-token을 보냈다면 HMAC으로 신뢰를 판단할 수 있음
+
+@enduml
