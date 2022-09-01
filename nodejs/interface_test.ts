@@ -1,3 +1,4 @@
+
 export interface MdBankCommonTransactionsReq {
   org_code: string;
   account_num: string;
@@ -31,19 +32,43 @@ data2 = {
   limit: 1
 }
 
-const key1 = `${data1}`;
-const key2 = `${data2}`;
-const key11 = `${JSON.stringify(data1)}`;
-const key22= `${JSON.stringify(data2)}`;
+//a();
+function a() {
+  const key1 = `${data1}`;
+  const key2 = `${data2}`;
+  const key11 = `${JSON.stringify(data1)}`;
+  const key22= `${JSON.stringify(data2)}`;
 
 
-console.log(`${data1}`);
-console.log(`${JSON.stringify(data1)}`);
+  console.log(`${data1}`);
+  console.log(`${JSON.stringify(data1)}`);
 
-console.log('------------------')
-console.log(`${data2}`);
-console.log(`${JSON.stringify(data2)}`);
+  console.log('------------------')
+  console.log(`${data2}`);
+  console.log(`${JSON.stringify(data2)}`);
 
-console.log('------------------')
-console.log('same1: ', key1 === key2);
-console.log('same11: ', key11 === key22);
+  console.log('------------------')
+  console.log('same1: ', key1 === key2);
+  console.log('same11: ', key11 === key22);
+}
+
+interface Vector3D {
+  x: number;
+  y: number;
+  z: number;
+};
+
+function calculateLength(v: Vector3D) {
+  let length = 0;
+
+  for (const axis of Object.keys(v)) {
+    console.log('axis: ', axis, ', type: ', typeof axis);
+    // const coord: number = Number(v[axis]);
+    // length += Math.abs(coord);
+  }
+
+  return length;
+}
+
+const vec3D = {x: 3, y: 4, z: 1};
+calculateLength(vec3D);
