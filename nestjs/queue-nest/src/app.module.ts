@@ -10,6 +10,11 @@ import { BullModule } from '@nestjs/bull';
         host: 'localhost',
         port: 6379,
       },
+      defaultJobOptions: {
+        attempts: 2,
+        backoff: 2000,
+        removeOnComplete: true,
+      },
     }),
     BullModule.registerQueue({
       name: 'batch',

@@ -13,19 +13,19 @@ export class TasksService {
     timeZone: 'Asia/Seoul', // use this website: https://momentjs.com/timezone/
   })
   handleCron() {
-    this.logger.debug('Cron: Called every 2 seconds');
+    // this.logger.debug('Cron: Called every 2 seconds');
   }
 
-  @Interval(10000)
+  @Interval(2000)
   handleInterval() {
-    this.logger.debug('Interval: Called every 1 seconds');
+    // this.logger.debug('Interval: Called every 2 seconds');
   }
 
   @Cron('* * 8 * * *', {
     name: 'event',
   })
   startEvent() {
-    console.log('~~~ start event!');
+    // console.log('~~~ start event!');
   }
 
   @Cron('*/10 * * * * *', {
