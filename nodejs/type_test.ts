@@ -79,3 +79,10 @@ function c() {
 
   console.log('merged: ', _.defaults({ store: 'redisStore', db: 1, ttl: 100000 }, JSON.parse(REDIS_OPTIONS)));
 }
+
+d();
+function d() {
+  const data = true;
+
+  console.log('result: ', _.isEmpty(data), _.isNil(data));
+}

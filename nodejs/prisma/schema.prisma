@@ -10,60 +10,144 @@ datasource db {
 }
 
 model BDAY_CUST {
-  ID                        BigInt              @id @default(autoincrement()) @db.UnsignedBigInt
-  MY_CODE                   String              @unique @db.VarChar(256)  // my unique code for recommendation to others. Alphabet 6 length (2022/6)
-  RCMND_CODE                String?             @db.VarChar(256)
-  BD_CUST_EVENT             BDAY_CUST_EVENT[]
-  BDAY_CUST_TERMS           BDAY_CUST_TERMS[]
+  ID                        BigInt                      @id @default(autoincrement()) @db.UnsignedBigInt
+
+  BD_ASSET_PENSION          BD_ASSET_PENSION[]
+}
+model BD_ASSET_PENSION {
+  ID                     BigInt          @id @default(autoincrement()) @db.UnsignedBigInt
+  CUST_ID                BigInt          @db.UnsignedBigInt
+  ERR_CODE               String?         @db.VarChar(4)
+  ERR_MSG                String?         @db.VarChar(30)
+  RESULT                 PENSION_RESULT
+  DATA_RESULT            PENSION_RESULT
+  DATA_ERRMSG            String?
+  DATA_ERRDOC            String?
+  DATA_ECODE             String?
+  DATA_ETRACK            String?
+  DATA_RETIREPSDC_SUM    String?         @db.VarChar(15)
+  DATA_RETIREPSDB_SUM    String?         @db.VarChar(15)
+  DATA_PPS_SUM           String?         @db.VarChar(15)
+  DATA_ADDPS_SUM         String?         @db.VarChar(15)
+  CRT_DT                 DateTime        @default(now()) @db.DateTime(0) // 히스토리 최초 생성 날짜
+  MDF_DT                 DateTime        @default(now()) @db.DateTime(0) // 히스토리 마지막 업데이트 날짜
+
+  BD_ASSET_PENSION_DATA_NPS              BD_ASSET_PENSION_DATA_NPS?
+  BD_ASSET_PENSION_DATA_RETIREPSDSC      BD_ASSET_PENSION_DATA_RETIREPSDSC[]
+  BD_ASSET_PENSION_DATA_RETIREPSDB       BD_ASSET_PENSION_DATA_RETIREPSDB[]
+  BD_ASSET_PENSION_DATA_PERSONALPS       BD_ASSET_PENSION_DATA_PERSONALPS[]
+  BD_ASSET_PENSION_DATA_GEPS             BD_ASSET_PENSION_DATA_GEPS[]
+  BD_ASSET_PENSION_DATA_ADDPS            BD_ASSET_PENSION_DATA_ADDPS[]
+  BDAY_CUST              BDAY_CUST       @relation(fields: [CUST_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model BDAY_EVENT_DEF {
-  ID	                    BigInt                @id @default(autoincrement()) @db.UnsignedBigInt
-  CODE             				String                @unique @db.VarChar(256) // 220701_VIRAL_STARTBUCKS
-  TITLE                   String                @db.VarChar(256)  // "Starbucks Gift"
-  IMAGE_URLS              Json?                 @db.Json  // { main: "a.b.c", tip: "c.d.f", ... }
-  DESCS                   Json?                 @db.Json  // { main_head: "first come, first served", main_center:"If you connect to the assets, the Starbucks coffee is given!", detail_tip: "If you recommend someone, ...", }
-  OP_GUIDE                Json                  @db.Json  // { title: "Please make sure of below", item1: "You can signup only once", item2:"total event count is ...", }                   
-  TOT_SIGNUP_CNT          Int
-  CUR_SIGNUP_CNT          Int                   // this should be less or equal to the total count
-  DATE_START	            DateTime		      		@db.DateTime
-  DATE_END                DateTime		      		@db.DateTime
-  TERM_ID                 BigInt                @db.UnsignedBigInt
-  CONDITIONS_START        Json?                 @db.Json  // { "when_signup": "> 202207", ...}	"asset_connect" should be handled as enum type at programming side
-  CONDITIONS_END          Json?                 @db.Json  // {"asset_connect": "> 1", ...}	"asset_connect" should be handled as enum type at programming side
-  DATE_COMPLETE           DateTime?             @db.DateTime  //If null, the event is active
-  CRT_ID                  String                @db.VarChar(20)
-  CRT_DT                  DateTime              @default(now()) @db.DateTime(0)
-  MDF_ID                  String                @db.VarChar(20)
-  MDF_DT                  DateTime              @default(now()) @db.DateTime(0)
-  BDAY_TERMS              BDAY_TERMS            @relation(fields: [TERM_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
-  BDDAY_CUST_EVENTS       BDAY_CUST_EVENT[]
+model BD_ASSET_PENSION_DATA_NPS {
+  PENSION_ID          BigInt          @id @db.UnsignedBigInt
+  REFNDAY             String?         @db.VarChar(8)   // 조회기준일 yyyyMMdd
+  MEMBERGUBUN         String?         @db.VarChar(10)  // 가입자구분
+  ANNUITYKIND         String?         @db.VarChar(10)  // 연금종류
+  PNSNSTRTYEAR        String?         @db.VarChar(4)   // 연금개시년도 yyyy
+  PAYEDMONTH          String?         @db.VarChar(5)   // 납부월수
+  PAYEDAMT            String?         @db.VarChar(15)  // 납부총액
+  EXPTPAYMONTH        String?         @db.VarChar(5)   // 예상 총 납부월수
+  EXPTPAYAMT          String?         @db.VarChar(15)  // 예상 납부 보험료 총액
+  EXPTRECVMONTH       String?         @db.VarChar(6)   // 수급개시 년월 yyyyMM
+  UNCLPENSION         String?         @db.VarChar(1)   // 미청구 연금정보 0: 청구할 급여가 없을경우, 1: 청구할 급여가 있을경우
+  RECVAMTLIST         Json?                            // 가치기준, 예상연금액(월) [{ "STANDARDOFVALUE":"1", "EXPTRECVAMT":"1000000"}, ...]
+
+  BD_ASSET_PENSION    BD_ASSET_PENSION    @relation(fields: [PENSION_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model BDAY_CUST_EVENT {
-  ID	                    BigInt                @id @default(autoincrement()) @db.UnsignedBigInt					
-  CUST_ID	                BigInt     
-  EVENT_CODE	            String					      @db.VarChar(256)
-  RCMND_CODE             	String	              @db.VarChar(256) // belongs to BDAY_CUST's MY_CODE						
-  CONDITIONS_END_STATUS   Json?	                @db.Json      // {"asset_connect":true, ...}
-  DATE_COMPLETE           DateTime?			        @db.DateTime  //If null, the event is not signed up yet
-  CUST                    BDAY_CUST             @relation(fields: [CUST_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
-  EVENT_DEF               BDAY_EVENT_DEF        @relation(fields: [EVENT_CODE], references: [CODE], onUpdate: NoAction)
+model BD_ASSET_PENSION_DATA_RETIREPSDSC {
+  PENSION_ID          BigInt          @id @db.UnsignedBigInt
+  REFNDAY             String?         @db.VarChar(8)   // 조회기준일 yyyyMMdd
+  CORPNM              String?         @db.VarChar(10)  // 가입회사
+  PRDTYNM             String?         @db.VarChar(10)  // 상품유형
+  PRDNM               String?         @db.VarChar(20)  // 상품명
+  ENTRDAY             String?         @db.VarChar(8)   // 가입일자 yyyyMMdd
+  ACCNO               String?         @db.VarChar(20)  // 계좌번호
+  CHRGTELNO           String?         @db.VarChar(20)  // 담당자연락처
+  FNNEMAILADDR        String?         @db.VarChar(20)  // 담당자이메일
+  SAVEAMT             String?         @db.VarChar(15)  // 총 납입액(원)
+  MIDWDRWAMT          String?         @db.VarChar(15)  // 중도 인출금액(원)
+  RSRVAMT             String?         @db.VarChar(15)  // 적립금액(원)
+  SAVEENDDAY          String?         @db.VarChar(8)   // 납입종료일 yyyyMMdd 납입종료일이 없을경우 99991231로 추출
+  EXPTSAVEAMT         String?         @db.VarChar(15)  // 연 납입액(원)
+  YRCNTRAMT           String?         @db.VarChar(15)  // 연 약정납입액(원)
+  EXPTRSRVAMT         String?         @db.VarChar(15)  // 예상연금적립액(원)
+  PNSNSTRTDAY         String?         @db.VarChar(8)   // 연금 개시(예정)일 yyyyMMdd
+  PNSNSTRTAGE         String?         @db.VarChar(3)   // 연금 개시나이
+  PNSNENDDAY          String?         @db.VarChar(10)  // 연금 수령종료일
+  PNSNENDAGE          String?         @db.VarChar(3)   // 연금 수령종료일나이
+  PNSNRECVAMT         String?         @db.VarChar(15)  // 연금 기 수령액(원)
+  PNSNNRECVAMT        String?         @db.VarChar(15)  // 미수령 연금액(원)
+
+  BD_ASSET_PENSION    BD_ASSET_PENSION    @relation(fields: [PENSION_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model BDAY_TERMS {
-  ID               BigInt               @id @default(autoincrement()) @db.UnsignedBigInt
-  TERM_ID          String               @db.VarChar(60)
-  EVENT_DEF        BDAY_EVENT_DEF[]
-  CUST_TERMS       BDAY_CUST_TERMS[]
+model BD_ASSET_PENSION_DATA_RETIREPSDB {
+  PENSION_ID          BigInt          @id @db.UnsignedBigInt
+  PRDTYNM             String?         @db.VarChar(10)  // 상품유형
+  PRDNM               String?         @db.VarChar(20)  // 상품명
+  ENTRYEAR            String?         @db.VarChar(20)  // 입사(중간정산)연도
+  EXPRETIREYEAR       String?         @db.VarChar(20)  // 퇴직예정년도
+  EXPENSAMT           String?         @db.VarChar(15)  // 예시연금액(원)
+  CORPLIST            Json?           @db.Json         // { 가입회사, 상품명 } [{ CORPNM:..., PRDNM:... }, ... ]
+
+  BD_ASSET_PENSION    BD_ASSET_PENSION    @relation(fields: [PENSION_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model BDAY_CUST_TERMS {
-  ID           BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
-  CUST_ID      BigInt   @db.UnsignedBigInt
-  BDAY_TERM_ID BigInt   @db.UnsignedBigInt
-  AGR_YN       Boolean
+model BD_ASSET_PENSION_DATA_PERSONALPS {
+  PENSION_ID          BigInt          @id @db.UnsignedBigInt
+  REFNDAY             String?         @db.VarChar(20) // 조회기준일 STRING yyyyMMdd
+  CORPNM              String?         @db.VarChar(20) // 가입회사
+  PRDTYNM             String?         @db.VarChar(20) // 상품유형
+  PRDNM               String?         @db.VarChar(20) // 상품명
+  ENTRDAY             String?         @db.VarChar(20) // 가입일자 yyyyMMdd
+  ACCNO               String?         @db.VarChar(20) // 계좌번호
+  CHRGTELNO           String?         @db.VarChar(20) // 담당자연락처
+  FNNEMAILADDR        String?         @db.VarChar(20) // 담당자이메일
+  SAVEAMT             String?         @db.VarChar(20) // 총 납입액(원)
+  MIDWDRWAMT          String?         @db.VarChar(20) // 중도 인출금액(원)
+  RSRVAMT             String?         @db.VarChar(20) // 적립금액(원)
+  SAVETYNM            String?         @db.VarChar(20) // 적립방식, 보험일 경우 추출됨
+  SAVEFNSHYNNM        String?         @db.VarChar(20) // 납입상태, 보험일 경우 추출됨
+  SAVETERMNM          String?         @db.VarChar(20) // 납입방법, 보험일 경우 추출됨
+  SAVEINSRFEE         String?         @db.VarChar(20) // 납입보험료(원)
+  SAVEENDDAY          String?         @db.VarChar(20) // 납입종료일 yyyyMMdd
+  EXPTSAVEAMT         String?         @db.VarChar(20) // 예상 납입액(원/월), 신탁,펀드일 경우에만 출력. 보험등 그 외는 0으로 출력.
+  EXPTRSRVAMT         String?         @db.VarChar(20) // 예상연금적립액(원)
+  PNSNSTRTDAY         String?         @db.VarChar(20) // 연금 개시(예정)일 yyyyMMdd
+  PNSNSTRTAGE         String?         @db.VarChar(20) // 연금 개시나이
+  PNSNENDDAY          String?         @db.VarChar(20) // 연금 수령종료일
+  PNSNENDAGE          String?         @db.VarChar(20) // 연금 수령종료일나이
+  PNSNRECVAMT         String?         @db.VarChar(20) // 연금 기 수령액(원)
+  PNSNNRECVAMT        String?         @db.VarChar(20) // 미수령 연금액(원)
 
-  BDAY_CUST  BDAY_CUST  @relation(fields: [CUST_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
-  BDAY_TERMS BDAY_TERMS @relation(fields: [BDAY_TERM_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
+  BD_ASSET_PENSION    BD_ASSET_PENSION    @relation(fields: [PENSION_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model BD_ASSET_PENSION_DATA_GEPS {
+  PENSION_ID          BigInt          @id @db.UnsignedBigInt
+  GUBUN               String?         @db.VarChar(20) // 구분
+  KIND                String?         @db.VarChar(20) // 급여종류
+  PNSNSTRTDAY         String?         @db.VarChar(6)  // 지급개시예정일 yyyyMM, 일시금 또는 퇴직수당일 경우 해당 값 없음. 값이 없을 경우 일괄적으로 99991231로 처리.
+  EXPTRSRVAMT         String?         @db.VarChar(20) // 예상연금수령액
+  BIGO                String?         @db.VarChar(20) // 비고
+
+  BD_ASSET_PENSION    BD_ASSET_PENSION    @relation(fields: [PENSION_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model BD_ASSET_PENSION_DATA_ADDPS {
+  PENSION_ID          BigInt          @id @db.UnsignedBigInt
+  CORPNM              String?         @db.VarChar(20) // 가입회사
+  PNSNSTRTYEAR        String?         @db.VarChar(4)  // 연금개시년도 yyyy
+  EXPTRECVAMT         String?         @db.VarChar(20) // 예상연금수령액(원/월)
+
+  BD_ASSET_PENSION    BD_ASSET_PENSION    @relation(fields: [PENSION_ID], references: [ID], onDelete: Cascade, onUpdate: NoAction)
+}
+
+enum PENSION_RESULT {
+  SUCCESS
+  FAIL
 }
