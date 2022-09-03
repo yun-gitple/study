@@ -2,8 +2,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ScheduleModule } from '@nestjs/schedule';
-import { TasksService } from './services/task.service';
 import { BullModule } from '@nestjs/bull';
+import { Cron2Module } from './cron2/cron-debug.module';
+import { TasksService } from './task.service';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { BullModule } from '@nestjs/bull';
     BullModule.registerQueue({
       name: 'batch',
     }),
+    Cron2Module,
   ],
   controllers: [AppController],
   providers: [AppService, TasksService],

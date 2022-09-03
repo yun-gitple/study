@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppDebugService } from './app-debug.service';
 import { BullModule } from '@nestjs/bull';
-import { AppDebugModule } from './app-debug/app-debug.module';
 
 @Module({
   imports: [
@@ -18,11 +16,9 @@ import { AppDebugModule } from './app-debug/app-debug.module';
       },
     }),
     BullModule.registerQueue({
-      name: 'batch',
+      name: 'batch-debug',
     }),
-    AppDebugModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [AppDebugService],
 })
-export class AppModule {}
+export class AppDebugModule {}

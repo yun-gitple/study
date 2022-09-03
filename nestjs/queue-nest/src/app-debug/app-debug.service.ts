@@ -3,9 +3,9 @@ import { Process, Processor, InjectQueue, OnQueueActive, OnQueueFailed, OnQueueC
 import { Job, Queue, JobStatus } from 'bull';
 
 @Injectable()
-@Processor('batch')
-export class AppService {
-  constructor(@InjectQueue('batch') private batchQueue: Queue) {}
+@Processor('batch-debug')
+export class AppDebugService {
+  constructor(@InjectQueue('batch-debug') private batchQueue: Queue) {}
 
   getHello(): string {
     return 'Hello World!';
@@ -49,24 +49,24 @@ export class AppService {
     console.log('~~~ get jobs: ', jobs);
   }
 
-  @Process('job1')
-  async getEvent(job: Job<unknown>) {
+  @Process('job-debug1')
+  async getJobDebug1(job: Job<unknown>) {
     console.log(
       '~~~ ',
       this.batchQueue.name,
-      ' process job1:',
+      ' process job-debug1:',
       job.id,
       job.name,
       await job.getState(),
     );
   }
 
-  // @Process('job2')
+  // @Process('job-debug2')
   // async getEvent2(job: Job<unknown>) {
   //   console.log(
   //     '~~~ ',
   //     this.batchQueue.name,
-  //     ' process job2:',
+  //     ' process job-debug2:',
   //     job.id,
   //     job.name,
   //     await job.getState(),
@@ -119,7 +119,7 @@ export class AppService {
   @OnQueueStalled()
   handleStalled(job: Job) {
     console.log(
-      `[[[]]] ${this.batchQueue.name},Stalled job ${job.id} of type ${job.name} with data ${job.data}`
+      `[[[]]] ${this.batchQueue.name},Stalled job ${job.id} of type ${job.name} with data ${job.data}...`
     );
   }
 }

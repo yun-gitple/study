@@ -13,6 +13,11 @@
 GET {{host}}/queue/jobs
 Content-Type: application/json; charset=UTF-8
 
+### LOGIN
+
+GET {{host}}/queue/log/apis
+Content-Type: application/json; charset=UTF-8
+
 ###
 
 @admin-access-token = {{adminlogin.response.body.$.token.access_token}}

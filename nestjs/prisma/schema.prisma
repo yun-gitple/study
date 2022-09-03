@@ -1,0 +1,41 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model SimpleProduct {
+  sku                     String                    @id
+  name                    String
+  regular_price           Float
+  stock                   Int
+  images                  String?
+  ean                     String?
+  manufacturer            String?
+  categories              Category[]
+  CategoryToSimpleProduct CategoryToSimpleProduct[]
+}
+
+model Category {
+  id                      Int                       @id @default(autoincrement())
+  name                    String
+  parent                  Int?
+  parentCategory          Category?                 @relation("CategoryParent", fields: [parent], references: [id])
+  childrenCategories      Category[]                @relation("CategoryParent")
+  products                SimpleProduct[]
+  CategoryToSimpleProduct CategoryToSimpleProduct[]
+}
+
+model CategoryToSimpleProduct {
+  simpleProduct SimpleProduct @relation(fields: [sku], references: [sku])
+  sku           String
+  category      Category      @relation(fields: [categoryId], references: [id])
+  categoryId    Int
+
+  @@id([sku, categoryId])
+}
