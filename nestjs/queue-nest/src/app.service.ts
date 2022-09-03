@@ -49,6 +49,7 @@ export class AppService {
     console.log('~~~ get jobs: ', jobs);
   }
 
+<<<<<<< HEAD
   @Process('job1')
   async getEvent(job: Job<unknown>) {
     console.log(
@@ -59,6 +60,12 @@ export class AppService {
       job.name,
       await job.getState(),
     );
+=======
+  @Process('event')
+  getEvent(job: Job<unknown>) {
+    console.log('~~~ event job=%j', job);
+    throw Error('event error');
+>>>>>>> cbb1a76387b660941c504e9458074e04102806b7
   }
 
   // @Process('job2')
@@ -121,5 +128,15 @@ export class AppService {
     console.log(
       `[[[]]] ${this.batchQueue.name},Stalled job ${job.id} of type ${job.name} with data ${job.data}`
     );
+  }
+
+  @OnQueueFailed()
+  handleFailed(job: Job, err: Error) {
+    console.log(`OnQueueFailed: queue=%j, job.id=%j, job.name=%j`, this.batchQueue.name, job.id, job.name);
+  }
+
+  @OnQueueCompleted()
+  handleCompleted(job: Job, result: any) {
+    console.log(`OnQueueCompleted: job.id=%j, job.name=%j`, job.id, job.name);
   }
 }

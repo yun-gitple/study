@@ -1,0 +1,43 @@
+@startuml private mydata oauth
+
+title MyData Individual Authentication
+skinparam sequenceMessageAlign center
+
+actor "Web Browser \n(Resource Owner)" as User
+participant "MyData Server" as Client
+
+box "Resource Provider (empowered by ATOPCLOUD)"
+participant "Bank \nAuth Server" as BankAuth
+database "Bank \nAuth Storage" as Storage
+participant "Bank \nResource Server" as Resource
+participant " Legacy Bank \nAuth Server" as LegacyBankAuth #LightBlue
+end box
+
+LegacyBankAuth -[#Blue]> BankAuth : In advance, inform of the OAuth log-in page URL
+User -> Client : Choose a bank for information
+note right of Client : If there already exists a refresh token, \nthis redirection would not be necessary. \nInstead, MyData Server could directly request \n"/bank/oauth2.0/authorize" to Bank AuthServer.
+Client --> User : 302 Redirect to /oauth/2.0/authorize \n(redirect_url, org_code, client_id, state)
+User -> BankAuth : Request /oauth/2.0/authorize \n(redirect_url, org_code, client_id, state)
+BankAuth -> Storage : Store (redirect_url, org_code, client_id, state)
+BankAuth --> User: 302 Redirect to the legacy bank log-in page \n(redirect_url, org_code, client_id, state)
+User -> LegacyBankAuth : Request the legacy bank log-in page \n(redirect_url, org_code, client_id, state)
+LegacyBankAuth --> User : Return the log-in page \n(redirect_url, org_code, client_id, state)
+User -> LegacyBankAuth : Authenticate with owner's credential \n(redirect_url, org_code, client_id, state)
+LegacyBankAuth -> LegacyBankAuth : Verify user's \ncrendential
+LegacyBankAuth -[#Blue]> BankAuth : Request an authentication code \n(user_info, redirect_url, org_code, client_id, state)
+BankAuth -> BankAuth : Verify and Generate an auth_code
+BankAuth -> Storage : Map the user_info with (auth_code, \nredirect_url, org_code, client_id, state)
+BankAuth --[#Blue]> LegacyBankAuth : Return auth_code
+LegacyBankAuth --> User : 302 Redirect to request_url (auth_code, state)
+User -> Client : Request the request_url (auth_code, state)
+Client -> Client : Verify the state which has been issued by itself
+Client -> BankAuth : Request /oauth/2.0/token \n(auth_code, client_id, client_secret)
+note right of BankAuth : The verification of client_id, client_secret would be \nperformed by "Management Portal"
+BankAuth -> BankAuth : Verify the auth_code, client_id, client_secret \n and generate an access token
+BankAuth -> Storage : Map the access_token with (user_info, etc.) 
+BankAuth --> Client : Return (access_token, refresh_token)
+Client -> Resource : Request /accounts (access_token, org_code)
+Resource -> Storage : See if the account_code is valid
+Resource --> Client : Return account list
+Client --> User : Return account list page
+@enduml

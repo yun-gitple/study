@@ -1,0 +1,23 @@
+@startuml private mydata oauth
+
+title 서금원 보안 이슈 대안
+skinparam sequenceMessageAlign center
+
+box 서금원 영역
+participant "서금원 App" as SeoApp #LightBlue
+participant "서금원 Backend" as SeoBack #LightBlue
+participant "베러 Webview" as BetterWeb
+end box
+
+participant "베러 Backend" as BetterBack
+
+SeoBack <-> BetterBack: HMAC용 <Color #RED>Secret Key</color> 공유
+
+== Initialization ==
+
+SeoApp -> BetterWeb: webview(<color #BLUE>HMAC_서금원 고객NO</color>)
+
+BetterWeb -> BetterBack: validate(<color #BLUE>HMAC_서금원 고객NO)
+BetterBack -> BetterBack: 사전에 공유된 <color #RED>Secret Key</color>로\nHMAC 신뢰성 확인 가능
+
+@enduml
