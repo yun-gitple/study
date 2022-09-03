@@ -1,0 +1,26 @@
+@hostname = http://127.0.0.1
+@port = 3000
+@globalprefix =
+@host = {{hostname}}:{{port}}/{{globalprefix}}
+# @host = https://app.betterday.co.kr/api/v1
+# @host = https://app.betterday.finset.io/api/v1
+
+
+### LOGIN
+# @name login
+
+POST {{host}}auth/login
+Content-Type: application/json; charset=UTF-8
+
+{
+  "username": "john",
+  "password": "ab2398"
+}
+
+###
+@login-access-token = {{login.response.body.$.access_token}}
+
+### GET profile
+Get {{host}}profile
+Content-Type: application/json
+Authorization: Bearer {{login-access-token}}
