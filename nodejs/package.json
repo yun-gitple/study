@@ -14,7 +14,9 @@
     "bcrypt": "^5.0.1",
     "crypto-js": "^4.1.1",
     "lodash": "^4.17.21",
-    "moment": "^2.29.3"
+    "moment": "^2.29.3",
+    "nodemon": "^2.0.19",
+    "redis": "^4.3.1"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^9.1.3",
