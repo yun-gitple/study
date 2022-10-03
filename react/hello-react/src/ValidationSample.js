@@ -1,0 +1,45 @@
+import { Component } from "react";
+import './Validation.css';
+
+class ValidationSample extends Component {
+  state = {
+    password: '',
+    clicked: false,
+    validated: false
+  };
+
+  handleChange = e => {
+    this.setState({
+      password: e.target.value
+    })
+  }
+
+  handleButtonClick = () => {
+    const validated = this.state.password === '0000';
+    this.setState({
+      clicked: true,
+      validated
+    });
+    console.log('valid:%j, password:%j', validated, this.state.password);
+    if (!validated) {
+      this.input.focus();
+    }
+  }
+
+  render() {
+    return (
+      <div>
+        <input
+          ref={(ref) => this.input=ref}
+          type = "password"
+          value = {this.state.password}
+          onChange = {this.handleChange}
+          className = {this.state.clicked ? (this.state.validated ? 'success' : 'failure') : ''}
+        />
+        <button onClick={this.handleButtonClick}>Validate!</button>
+      </div>
+    )
+  }
+}
+
+export default ValidationSample;

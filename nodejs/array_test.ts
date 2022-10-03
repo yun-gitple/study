@@ -14,7 +14,7 @@ function a() {
   });
 }
 
-b();
+//b();
 function b() {
   const cleared = [
     "asset_connect",
@@ -22,4 +22,12 @@ function b() {
   ];
 
   console.log('includes: ', _.includes(cleared, 'asset_connect'));
+}
+
+c();
+function c() {
+  const data1 = { a: 'this', b: 'is', c: 'my', d: 'life' };
+  const data2 = { ...data1 };
+
+  console.log(data2);
 }
