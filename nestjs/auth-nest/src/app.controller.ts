@@ -1,7 +1,9 @@
-import { Controller, Request, Post, UseGuards, Get } from '@nestjs/common';
+import { Controller, Request, Post, UseGuards, Get, UseFilters } from '@nestjs/common';
 import { CurrentUser, ReqUserLog } from './auth/auth.decorator';
 import { JwtAuthGuard, LocalAuthGuard } from './auth/auth.guard';
 import { AuthService } from './auth/auth.service';
+import { MyExceptionFilter } from './filter/my-exception.filter';
+import { SimpleExceptionFilter } from './filter/simple-exception.filter';
 
 @Controller()
 export class AppController {
@@ -27,6 +29,7 @@ export class AppController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @UseFilters(SimpleExceptionFilter)
   @Get('profile')
   getProfile(@Request() req, @CurrentUser() user: any, @ReqUserLog() log: any) {
     console.log('~~~ profile: user, ', user);
