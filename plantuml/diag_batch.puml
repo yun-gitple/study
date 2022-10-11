@@ -1,0 +1,39 @@
+@startuml private mydata oauth
+
+title 진단 속도 개선
+skinparam sequenceMessageAlign center
+
+box "깃플 업무"
+participant "TaskService\n(main)" as task
+participant "Queue\n(bull)" as queue
+participant "BatchService\n(batch)" as batch
+end box
+
+box "인텔리 업무"
+participant "DiagService\n(diag)" as diag #LightBlue
+participant "CacheService\n(redis)" as cache
+participant "FrontEnd\n(app)" as front #LightYellow
+end box
+
+task -> queue: 진단 배치잡 등록하기(daily)
+== 배치잡 등록 ==
+
+batch -> queue: 1. 진단 배치잡 가져오기(daily)
+note left of diag: 5번과 동일 api 호출 (cache == false)
+queue -> diag: 2. 배치 함수 실행하기(진단 api 호출하기(cache == false))
+diag -> diag: 3. 진단 수행하기
+diag -> cache: 4. 진단 수행 결과 저장하기
+== 배치잡 실행 ==
+
+front -> diag: 5. 진단 api 호출
+alt if cache == true && 진단결과 있으면
+  diag --> front: 6. 배치 결과 리턴하기
+else if (cache == true && 진단결과가 없으면) || cache == false
+  front -> front: 7. 진행 중임을 표시\n(1초 이후에도 리턴이 없으면?)
+  diag -> diag: 8. 진단 수행하기
+  diag -> cache: 9. 진단 수행 결과 저장하기
+  diag --> front: 10. 진단 수행 결과 리턴하기
+end
+== 배치잡 결과 사용 ==
+
+@enduml

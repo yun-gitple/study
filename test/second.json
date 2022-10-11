@@ -1,0 +1,91 @@
+{
+  "NPS": {
+    "REFNDAY": "20220929",
+    "PAYEDAMT": "9650610",
+    "EXPTPAYAMT": "116263410",
+    "PAYEDMONTH": "46",
+    "ANNUITYKIND": "노령연금(개시전)",
+    "MEMBERGUBUN": "사업장가입자",
+    "RECVAMTLIST": [{
+      "EXPTRECVAMT": "1055240",
+      "STANDARDOFVALUE": "1"
+    }, {
+      "EXPTRECVAMT": "3561970",
+      "STANDARDOFVALUE": "2"
+    }, {
+      "EXPTRECVAMT": "4738470",
+      "STANDARDOFVALUE": "3"
+    }, {
+      "EXPTRECVAMT": "6291650",
+      "STANDARDOFVALUE": "4"
+    }],
+    "UNCLPENSION": "0",
+    "EXPTPAYMONTH": "445",
+    "PNSNSTRTYEAR": "2060",
+    "EXPTRECVMONTH": "206012"
+  },
+  "GEPS": {
+    "LIST": []
+  },
+  "ADDPS": {
+    "LIST": [],
+    "SUMAMT": "null"
+  },
+  "ECODE": "",
+  "ERRDOC": "",
+  "ERRMSG": "",
+  "ETRACK": "",
+  "RESULT": "SUCCESS",
+  "PERSONALPS": {
+    "LIST": [{
+      "ACCNO": "null",
+      "PRDNM": "NH투자증권 연금저축펀드",
+      "CORPNM": "ＮＨ투자증권",
+      "ENTRDAY": "20211129",
+      "PRDTYNM": "연금저축펀드",
+      "REFNDAY": "20220831",
+      "RSRVAMT": "195029",
+      "SAVEAMT": "200000",
+      "SAVETYNM": "null",
+      "CHRGTELNO": "0215440000",
+      "MIDWDRWAMT": "0",
+      "PNSNENDAGE": "75",
+      "PNSNENDDAY": "20701123",
+      "SAVEENDDAY": "20501123",
+      "SAVETERMNM": "null",
+      "EXPTRSRVAMT": "1684320",
+      "EXPTSAVEAMT": "2777",
+      "PNSNRECVAMT": "0",
+      "PNSNSTRTAGE": "55",
+      "PNSNSTRTDAY": "20501123",
+      "SAVEINSRFEE": "null",
+      "FNNEMAILADDR": "-",
+      "PNSNNRECVAMT": "0",
+      "SAVEFNSHYNNM": "null"
+    }],
+    "SUMAMT": "195029"
+  },
+  "RETIREPSDB": {
+    "LIST": [],
+    "SUMAMT": "null"
+  },
+  "RETIREPSDC": {
+    "LIST": [],
+    "SUMAMT": "null"
+  }
+}
+{
+  "total": -4971,
+  "PERSONALPS": {
+    "each": [{
+      "PRDNM": "NH투자증권 연금저축펀드",
+      "CORPNM": "ＮＨ투자증권",
+      "amount": -4971,
+      "amount_rate": -0.2517718033512829
+    }],
+    "total": -4971,
+    "total_rate": -0.2517718033512829,
+    "total_RSRVAMT": 195029
+  },
+  "total_rate": -0.2517718033512829
+}

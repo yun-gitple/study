@@ -80,9 +80,83 @@ function c() {
   console.log('merged: ', _.defaults({ store: 'redisStore', db: 1, ttl: 100000 }, JSON.parse(REDIS_OPTIONS)));
 }
 
-d();
+// d();
 function d() {
   const data = true;
 
   console.log('result: ', _.isEmpty(data), _.isNil(data));
+}
+
+// e()
+function e() {
+  const data: number = 5.67;
+  console.log('data: ', data);
+
+  const upData: number = 230;
+  const downData: number = 89;
+  console.log('upDown: ', upData/downData);
+}
+
+f();
+function f() {
+  if(null) {
+    console.log('null: true');
+  } else {
+    console.log('null: false');
+  }
+
+  if(_.isNil(null)) {
+    console.log('nil null: false');
+  } else {
+    console.log('nil null: true');
+  }
+
+  if(undefined) {
+    console.log('undefined: true');
+  } else {
+    console.log('undefined: false');
+  }
+
+  if(_.isNil(undefined)) {
+    console.log('nil undefined: false');
+  } else {
+    console.log('nil undefined: true');
+  }
+
+  if('') {
+    console.log('empty: true');
+  } else {
+    console.log('empty: false');
+  }
+
+  if(_.isNil('')) {
+    console.log('nil empty: true');
+  } else {
+    console.log('nil empty: false');
+  }
+
+  console.log('--------------');
+  if(_.isEmpty([])) {
+    console.log('nil array empty: true');
+  } else {
+    console.log('nil array empty: false');
+  }
+
+  if(_.isEmpty(null)) {
+    console.log('nil array null empty: true');
+  } else {
+    console.log('nil array null empty: false');
+  }
+
+  if(_.isEmpty(undefined)) {
+    console.log('nil array undefined empty: true');
+  } else {
+    console.log('nil array undefined empty: false');
+  }
+
+  if(_.isEmpty('')) {
+    console.log('nil array "" empty: true');
+  } else {
+    console.log('nil array ""empty: false');
+  }
 }

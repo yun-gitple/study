@@ -1,3 +1,5 @@
+import moment  from "moment/moment";
+
 function date_a() {
   const date0 = new Date('2022/07/01');       //KST로 인식
   const date1 = new Date('2022/07/01T00:30'); //KST로 인식
@@ -29,5 +31,24 @@ function date_b() {
 // console.log('~~~~~~~~~~~~~');
 // date_b();
 
-const firstT = Date.now();
-console.log('~~~~ time stamp: ', firstT, ', ', Date.now() - firstT);
+// const firstT = Date.now();
+// console.log('~~~~ time stamp: ', firstT, ', ', Date.now() - firstT);
+
+// c();
+function c() {
+  const currentD = new Date();
+  // console.log('this year: ', currentD.getFullYear());
+  console.log('this year: ', new Date(new Date().getFullYear() + '-01-01'));
+  // console.log('this year: ', new Date('2022-01-01'));
+}
+
+d();
+function d() {
+  const startD = new Date('2011-05-31');
+
+  console.log(startD);
+  console.log(startD.getFullYear());
+
+  console.log(moment('20110531')('Asia/Seoul').toDate());
+  console.log(moment().tz('Asia/Seoul').toDate());
+}

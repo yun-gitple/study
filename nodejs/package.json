@@ -11,10 +11,13 @@
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/crypto-js": "^4.1.1",
+    "@types/ioredis": "^4.28.10",
     "bcrypt": "^5.0.1",
     "crypto-js": "^4.1.1",
+    "ioredis": "4.28.5",
     "lodash": "^4.17.21",
-    "moment": "^2.29.3"
+    "moment": "^2.29.3",
+    "redis": "^4.3.1"
   },
   "devDependencies": {
     "@mermaid-js/mermaid-cli": "^9.1.3",

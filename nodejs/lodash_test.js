@@ -126,7 +126,7 @@ console.log('where merged:', _.merge(customQuery.where, specificIndustry));
 }
 
 
-merge1();
+// merge1();
 
 function merge1() {
   const updateData = {};
@@ -135,4 +135,50 @@ function merge1() {
   _.merge(updateData, { END_DT: new Date() });
 
   console.log('~~~ update: ', updateData);
+}
+
+// omit();
+function omit() {
+  const data = {
+    "profit": {
+      "total": 9502934,
+      "RETIREPS": {
+        "total": 1015230,
+        "RETIREPSDC": {
+          "each": [
+            {
+              "PRDNM": "NH 적립형 IRP",
+              "CORPNM": "농협은행",
+              "amount": 1015230,
+              "amount_rate": 0.007710358626801472
+            }
+          ],
+          "total": 1015230,
+          "total_rate": 0.007710358626801472,
+          "total_RSRVAMT": 21958030
+        },
+        "total_rate": 0.007710358626801472
+      },
+      "PERSONALPS": {
+        "total": 9502934,
+        "total_rate": 0.01834896077090627,
+        "total_RSRVAMT": 62250234
+      },
+      "total_rate": 0.015574853647188375
+    }
+  };
+
+  console.log(_.omit(data, 'profit.PERSONALPS.total_RSRVAMT'));
+}
+
+last();
+function last() {
+  const data1 = [];
+  const data2 = [{id:1}, {id:2}, {id:3}];
+
+  console.log(_.last(data1)?.id);
+  console.log(_.last(data2).id);
+  console.log(_.last(undefined));
+  console.log(_.last(null));
+  console.log(_.last(''));
 }

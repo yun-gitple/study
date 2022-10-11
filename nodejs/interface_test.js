@@ -20,6 +20,7 @@ data2 = {
     next_page: '2',
     limit: 1
 };
+
 //a();
 function a() {
     var key1 = "".concat(data1);
@@ -34,8 +35,8 @@ function a() {
     console.log('------------------');
     console.log('same1: ', key1 === key2);
     console.log('same11: ', key11 === key22);
-}
-;
+};
+
 function calculateLength(v) {
     var length = 0;
     for (var _i = 0, _a = Object.keys(v); _i < _a.length; _i++) {
@@ -45,5 +46,25 @@ function calculateLength(v) {
         return length;
     }
 }
-var vec3D = { x: 3, y: 4, z: 1 };
-calculateLength(vec3D);
+
+// b();
+function b() {
+    var vec3D = { x: 3, y: 4, z: 1 };
+    calculateLength(vec3D)// TYPICAL FUNCTION
+}
+
+function greet(){
+    console.log(arguments[0]);
+    console.log(arguments[1]);
+    console.log(arguments[2]);
+};
+
+// TAG FUNCTION
+c();
+function c() {
+    const name = 'jongha';
+    const age = 20;
+    greet`I'm ${name}. I'm ${age} years old.`;
+}   
+
+
