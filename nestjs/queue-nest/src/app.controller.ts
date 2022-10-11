@@ -10,6 +10,11 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Get('log/apis')
+  logAPIs() {
+    return this.appService.logAPIs();
+  }
+
   @Get('jobs')
   async getJobs() {
     return this.appService.getJobs();

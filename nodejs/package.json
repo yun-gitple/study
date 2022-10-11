@@ -17,6 +17,10 @@
     "ioredis": "4.28.5",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
+<<<<<<< HEAD
+=======
+    "nodemon": "^2.0.19",
+>>>>>>> e1c2e125ff3da171a8732a987468575c5d618e9a
     "redis": "^4.3.1"
   },
   "devDependencies": {
