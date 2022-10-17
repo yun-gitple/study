@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>GIF chatting room</title>
+    </head>
+    <body>
+        <div>Press F12 to check console and network tab!</div>
+        <script>
+            const webSocket = new WebSocket('ws://localhost:8005');
+            webSoket.onopen = function () {
+                console.log('~~ connection to web socker server succeeded!');
+            };
+            webSocket.onmessage = function (event) {
+                console.log('~~ message:', event.data);
+                webSocket.send('send response to the jongha');
+            };
+        </script>
+    </body>
+</html>
