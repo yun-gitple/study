@@ -33,8 +33,7 @@ enum EVENT_STATUS {
   COMPLETE
 };
 
-objectMerge();
-
+// objectMerge();
 function objectMerge() {
 
   let queryDto = ''; // = "7, 8, 9";
@@ -61,3 +60,26 @@ function objectMerge() {
 
   console.log('~~~~ merge, ', _.merge(condId, condStatus));
 };
+
+function changeParam(data: {a: string, b: string}) {
+  data.a = 'no';
+}
+
+// callByReference();
+function callByReference() {
+
+  const data = { a: 'ok', b: 'go home'};
+  console.log('before:', data);
+
+  changeParam(data);
+  console.log('after:', data);
+}
+
+sameFieldValue();
+function sameFieldValue() {
+  const data = { "name": "jongha"}
+
+  const data2 = { data };
+
+  console.log('data2:', data2);
+}

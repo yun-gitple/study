@@ -97,7 +97,7 @@ function e() {
   console.log('upDown: ', upData/downData);
 }
 
-f();
+// f();
 function f() {
   if(null) {
     console.log('null: true');
@@ -158,5 +158,26 @@ function f() {
     console.log('nil array "" empty: true');
   } else {
     console.log('nil array ""empty: false');
+  }
+}
+
+enum PensionCategory {
+  NPS,
+  PERSONALPS,
+  RETIREDCPS,
+  RETIREDSPS,
+  ADDPS
+}
+
+g(PensionCategory.PERSONALPS);
+function g(category: PensionCategory ) {
+
+  switch(category) {
+    case PensionCategory.NPS: console.log('nps'); break;
+    case PensionCategory.PERSONALPS: console.log('personalps');break;
+  }
+
+  if (category === PensionCategory.PERSONALPS) {
+    console.log('~~~ yes!');
   }
 }

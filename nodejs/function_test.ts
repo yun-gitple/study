@@ -37,9 +37,23 @@ const member = {
   lastName: "Nilsen",
 }
 
-e();
+// e();
 function e() {
   console.log('1:', person.fullName());
   person.fullName = person.fullName.bind(member);
   console.log('2:', person.fullName());
+}
+
+async function dummyFunc() {
+  console.log('this is async test!');
+}
+
+async function testAsync() {
+  dummyFunc();
+  await dummyFunc();
+}
+
+testMain();
+async function testMain() {
+  await testAsync();
 }

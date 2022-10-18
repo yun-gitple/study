@@ -61,11 +61,38 @@ class PromiseTest {
 
 }
 
-const promTest = new PromiseTest();
+// const promTest = new PromiseTest();
 
 // promTest.testPromose();
 
-promTest.testSelectedAll();
+// promTest.testSelectedAll();
 // promTest.testAll();
 // promTest.testRace();
+
+const promise1 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    console.log('~~~ p1');
+    resolve("## p1");
+  }, 3000);
+});
+const promise2 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    console.log('~~~ p2');
+    resolve("## p2");
+  }, 1000);
+});
+
+async function testPromise1() {
+  const pResult = await Promise.all([promise1, promise2]).then((values) => {
+    console.log(values);
+    return 'jonghs got done!';
+  });
+
+  console.log('p result:', pResult);
+};
+
+main();
+async function main() {
+  await testPromise1();
+}
 
