@@ -7,7 +7,7 @@ const nunjucks = require('nunjucks');
 const dotenv = require('dotenv');
 
 dotenv.config();
-const webSocket = require('./socket');
+const webSocket = require('./ws-socket');
 const indexRouter = require('./routes');
 
 const app = express();
