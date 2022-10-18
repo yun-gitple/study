@@ -1,0 +1,25 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = "mysql://mysql:password@127.0.0.1:3306/jongha_db?connection_limit=20"
+  shadowDatabaseUrl = "mysql://mysql:password@127.0.0.1:3306/jongha_shadow_db?connection_limit=20"
+}
+
+model BDAY_CUST {
+  ID                          BigInt                        @id @default(autoincrement()) @db.UnsignedBigInt
+  CUST_NM                     String                        @db.VarChar(256) /// @encrypted <- fields to encrypt (must be a String)
+  CUST_ALT_NM                 String?                       @db.VarChar(88) // nick name, security purpose
+  CUST_ID                     String                        @db.VarChar(20)
+  TELECOM                     String?                       @db.VarChar(2)
+  MOBILE_NO                   String                        @db.VarChar(256) /// @encrypted <- fields to encrypt (must be a String)
+  MOBILE_NO_HASH              String                        @db.VarChar(256)
+  EMAIL                       String                        @db.VarChar(256) /// @encrypted <- fields to encrypt (must be a String)
+  EMAIL_HASH                  String                        @db.VarChar(256)
+  BIRTH_DD                    DateTime                      @db.Date
+  GNDR                        String                        @db.Char(1)
+  FOREIGNER                   Boolean                       @db.Bit(1)
+}
