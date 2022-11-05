@@ -97,7 +97,7 @@ function e() {
   console.log('upDown: ', upData/downData);
 }
 
-f();
+// f();
 function f() {
   if(null) {
     console.log('null: true');
@@ -159,4 +159,17 @@ function f() {
   } else {
     console.log('nil array ""empty: false');
   }
+}
+
+function arrayPP(data: any) {
+  data['jongha'] = 0;
+  console.log(data['jongha']++);
+  console.log(data['jongha']++);
+  console.log(data['jongha']++);
+}
+
+testArrayPP();
+function testArrayPP() {
+  const data = {};
+  arrayPP(data);
 }

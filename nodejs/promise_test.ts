@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 class PromiseTest {
 
-   async genRandomLetters(length: number):Promise<string> {
+   async genRandomLetters(length: number): Promise<string> {
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     const letters:string[] = [];
   
@@ -58,14 +58,33 @@ class PromiseTest {
     const result = Promise.race([prom1, prom2, prom3]);
     console.log('~~~ 2 race, result: ', await result);
   }
-
 }
 
-const promTest = new PromiseTest();
+// const promTest = new PromiseTest();
 
 // promTest.testPromose();
 
-promTest.testSelectedAll();
+// promTest.testSelectedAll();
 // promTest.testAll();
 // promTest.testRace();
+
+function returnPromise() {
+  return new Promise(resolve => {
+    console.log('start promise');
+    resolve('resolve!');
+    console.log('end promise');
+  });
+}
+
+function testRetPromise() {
+  console.log('1');
+  const pro = returnPromise();
+  console.log('2');
+  pro.then(value => {
+    console.log('then! vlaue:', value);
+  });
+  console.log('3');
+}
+
+testRetPromise();
 
