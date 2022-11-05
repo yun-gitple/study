@@ -168,8 +168,29 @@ function arrayPP(data: any) {
   console.log(data['jongha']++);
 }
 
+enum PensionCategory {
+  NPS,
+  PERSONALPS,
+  RETIREDCPS,
+  RETIREDSPS,
+  ADDPS
+}
+
 testArrayPP();
 function testArrayPP() {
   const data = {};
   arrayPP(data);
+  g(PensionCategory.PERSONALPS);
+}
+
+function g(category: PensionCategory ) {
+
+  switch(category) {
+    case PensionCategory.NPS: console.log('nps'); break;
+    case PensionCategory.PERSONALPS: console.log('personalps');break;
+  }
+
+  if (category === PensionCategory.PERSONALPS) {
+    console.log('~~~ yes!');
+  }
 }

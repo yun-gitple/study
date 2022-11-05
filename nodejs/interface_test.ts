@@ -68,7 +68,7 @@ function calculateLength(v: Vector3D) {
   }
 
   return length;
-}
+} 
 
 const vec3D = {x: 3, y: 4, z: 1};
 calculateLength(vec3D);
