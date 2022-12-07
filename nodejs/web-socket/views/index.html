@@ -8,11 +8,11 @@
         <div>Press F12 to check console and network tab!</div>
         <script>
             const webSocket = new WebSocket('ws://localhost:8005');
-            webSoket.onopen = function () {
+            webSocket.onopen = function () {
                 console.log('~~ connection to web socker server succeeded!');
             };
             webSocket.onmessage = function (event) {
-                console.log('~~ message:', event.data);
+                console.log('~~ message:', event.data.toString());
                 webSocket.send('send response to the jongha');
             };
         </script>

@@ -161,6 +161,13 @@ function f() {
   }
 }
 
+function arrayPP(data: any) {
+  data['jongha'] = 0;
+  console.log(data['jongha']++);
+  console.log(data['jongha']++);
+  console.log(data['jongha']++);
+}
+
 enum PensionCategory {
   NPS,
   PERSONALPS,
@@ -169,7 +176,13 @@ enum PensionCategory {
   ADDPS
 }
 
-g(PensionCategory.PERSONALPS);
+testArrayPP();
+function testArrayPP() {
+  const data = {};
+  arrayPP(data);
+  g(PensionCategory.PERSONALPS);
+}
+
 function g(category: PensionCategory ) {
 
   switch(category) {

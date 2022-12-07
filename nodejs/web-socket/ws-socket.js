@@ -7,7 +7,7 @@ module.exports = (server) => {
         const ip = req.headers['x-forwarder-for'] || req.connection.remoteAddress;
         console.log('~~ new client connection', ip);
         ws.on('message', (message) => {
-            console.log('~~ message:', message);
+            console.log('~~ message:', message.toString());
         });
         ws.on('error', (error) => {
             console.log('~~ error:', error);
@@ -23,4 +23,4 @@ module.exports = (server) => {
             }
         }, 3000);
     });
-}
+};
