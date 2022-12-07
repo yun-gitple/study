@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { type } from 'os';
 
 function objectA() {
   const endConds = {
@@ -75,11 +76,88 @@ function callByReference() {
   console.log('after:', data);
 }
 
-sameFieldValue();
+// sameFieldValue();
 function sameFieldValue() {
   const data = { "name": "jongha"}
 
   const data2 = { data };
 
   console.log('data2:', data2);
+}
+
+class InsuConsent implements IConsent {
+}
+
+interface IConsent {
+}
+
+function inputObject(data: IConsent) {
+  console.log('interface name:', data.constructor.name);
+}
+
+// nameTest();
+function nameTest() {
+  const data = sameFieldValue;
+  const data1 = new InsuConsent();
+  console.log('data:', data.constructor.name, ', typeof:', typeof data);
+  console.log('data1:', data1);
+  console.log('data1:', data1.constructor.name, ', typeof:', typeof data1);
+
+  inputObject(data1);
+}
+
+interface DynamicType {
+  INVEST_IRPS_ID: bigint;
+  IRP_NO: number;
+}
+
+function dynamicKey(dType: DynamicType) {
+  console.log('id:', dType.INVEST_IRPS_ID);
+}
+
+// testDynamic();
+function testDynamic() {
+  const idName =  { INVEST_IRPS_ID: 10n };
+
+  const key = _.keys(idName)[0];
+  _.set(idName, key, 22n);
+
+  const data = {
+    IRP_NO: 20
+  }
+
+  const merged = _.merge(idName, data);
+  console.log('merged:', merged);
+  dynamicKey(_.merge(idName, data));
+}
+
+// testArrayParse('');
+function testArrayParse(apiList: any) {
+  // const apiList = JSON.stringify([{api_uri: 'http://', api_code: 'AU10'}]);
+  const apis:{ api_uri: string; api_code: string }[] = JSON.parse(apiList);
+  console.log('apis:', apis);
+}
+
+// testNot(undefined)
+function testNot(apiCodes: any) {
+  const apiCode = 'CV01';
+  console.log(!apiCodes?.includes(apiCode));
+}
+
+function receiveObject(consent: any) {
+  console.log('name:', _.toString(consent));
+
+  const flatCon = _.flatten(consent);
+  console.log('flat:', flatCon);
+}
+
+testObjectName();
+function testObjectName() {
+  const MD_INSU_CONSENTS = {
+    IS_SCHEDULED: true,
+    END_DATE: '2022-11-24',
+    MDF_DT: '2022-10-23'
+  }
+
+  receiveObject(MD_INSU_CONSENTS);
 }

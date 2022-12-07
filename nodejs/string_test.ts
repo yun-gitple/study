@@ -85,9 +85,37 @@ function b() {
 
 }
 
-c();
+// c();
 function c() {
   const data = 'this is city life!';
   console.log(data.includes('is'));
   console.log(data.includes('ci'));
+}
+
+// encodingTest();
+function encodingTest() {
+  const encodedStr = Buffer.from('í<95>´ë<8b>¹ ê³<84>ì¢<8c>ë<8a><94> ì <95>ì<83><81> ê³<84>ì¢<8c>ê°<80> ì<95><84>ë<8b><98>').toString('latin1');
+  console.log('encoded:', encodedStr);
+}
+
+// testNullStringify();
+function testNullStringify() {
+  console.log(JSON.stringify(null));
+  console.log(JSON.stringify(undefined));
+}
+
+// testStartWith();
+function testStartWith() {
+  const apiCode1 = 'AU01';
+  const apiCode2 = 'IV01';
+  const apiCode3 = '_AU02';
+  console.log('r1:', apiCode1.startsWith('AU'));
+  console.log('r2:', apiCode2.startsWith('AU'));
+  console.log('r3:', apiCode3.startsWith('AU'));
+}
+
+testSubstring();
+function testSubstring() {
+  const data = 'kr1234';
+  console.log('sub:', data.substring(0, 2));
 }

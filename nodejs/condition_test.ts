@@ -9,7 +9,32 @@ function switchTest(data: string | null | undefined) {
   }
 }
 
-nullSwitch();
+// nullSwitch();
 function nullSwitch() {
   switchTest(undefined);
+}
+
+testEmptyNil();
+function testEmptyNil() {
+  const data1 = undefined;
+  const data2 = null;
+  const data3 = '';
+
+  if (data1) {
+    console.log('undefined is true');
+  } else {
+    console.log('undefined is false, data:', data1);
+  }
+
+  if (data2) {
+    console.log('null is true');
+  } else {
+    console.log('undefined is false, data:', data1);
+  }
+
+  if (data3) {
+    console.log('empty is true');
+  } else {
+    console.log('undefined is false, data:', data1);
+  }
 }

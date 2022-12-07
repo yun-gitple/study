@@ -14,7 +14,7 @@ function validNumber(data: any): number {
   return 0;
 }
 
-b();
+// b();
 function b() {
   const data1 = null;
   const data2 = '';
@@ -43,4 +43,48 @@ function b() {
   console.log('5:', validNumber(data5));
   console.log('6:', validNumber(data6));
   console.log('7:', validNumber(data7));
+}
+
+// floatTest();
+function floatTest() {
+  const data1:number = 20.34;
+
+  console.log('data:', data1);
+}
+
+testBig();
+function testBig() {
+  try {
+    testIsBigInt(undefined);
+  } catch (err) {
+    console.log(`undefined:${err}`);
+  }
+
+  try {
+    testIsBigInt(null);
+  } catch (err) {
+    console.log(`undefined:${err}`);
+  }
+  
+  try {
+    testIsBigInt('');
+  } catch (err) {
+    console.log(`undefined:${err}`);
+  }
+}
+
+function testIsBigInt(bigData: any) {
+  // const data: bigint = 123n;
+  // console.log(_.isNull(data));
+
+  const bigData2 = BigInt(bigData);
+  console.log('big:', bigData2);
+}
+
+// testIsNumber(undefined);
+// testIsNumber(null);
+// testIsNumber('');
+function testIsNumber(bigData: any) {
+  const numData = Number(bigData);
+  console.log('num:', numData);
 }

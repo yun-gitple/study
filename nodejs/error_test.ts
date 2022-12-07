@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-a();
+// a();
 function a() {
   const name = 'refereshData:1';
   try { 
@@ -9,4 +9,28 @@ function a() {
     // console.log(err);
     console.log('name: ', err.name, ', msg: ', err.message, ', includes: ', err.message.includes('RedisLockService'), err.message.includes('timed out'));
   }
+}
+
+function throwError() {
+  console.log('call throw error');
+  throw new Error('tes throwError!');
+}
+
+// callstack();
+function callstack() {
+  try {
+    throwError();
+  } catch (err: any) {
+    const thisError = new Error('my error');
+    console.log(thisError.stack + err.stack);
+  }
+}
+
+function secondFunc() {
+  console.log('error:', new Error('secondFunc()'));
+}
+
+firstFunc();
+function firstFunc() {
+  secondFunc();
 }
