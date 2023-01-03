@@ -163,8 +163,18 @@ function multiNestArrays() {
   console.log('result_fatten:', _.flatten(result));
 }
 
-testWrongIndex();
+// testWrongIndex();
 function testWrongIndex() {
   const data = [1, 2, 3];
   console.log('data:', data[5]);
+}
+
+testSameMerge();
+function testSameMerge() {
+  const data1 = { 'a': 1, 'b': 2};
+  const data2 = { 'b': 2, 'c': 3};
+
+  _.merge(data1, data2);
+
+  console.log('data:', data1);
 }

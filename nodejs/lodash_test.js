@@ -1,6 +1,8 @@
+const { compareDesc } = require('date-fns');
 const { fi } = require('date-fns/locale');
 const { merge } = require('lodash');
 const _  = require('lodash');
+const moment = require('moment/moment');
 
 // f();
 
@@ -220,7 +222,7 @@ function testEmptyNil() {
   console.log('empty array, nil:%j, empty:%j', _.isNil(d_empty_array),  _.isEmpty(d_empty_array))
 }
 
-testFind();
+// testFind();
 function testFind() {
   const data = [
     {"PROD_CODE":"KR7000480004","EVAL_AMT":"318800","CURRENCY_CODE":"KRW"},
@@ -238,4 +240,155 @@ function testFind() {
   const fIndex = _.findIndex(data, { "PROD_CODE": "KR7002310001" });
 
   console.log('fIndex:', data[fIndex]);
+}
+
+// testSpendAnalysis();
+function testSpendAnalysis() {
+  const newTxData = [];
+  newTxData.push({
+    APPROVED_DTIME: '2022-12-11 03:30:45',
+    APPROVED_AMT: 1224
+  });
+
+  newTxData.push({
+    APPROVED_DTIME: '2022-12-12 03:30:45',
+    APPROVED_AMT: 1224
+  });
+  newTxData.push({
+    APPROVED_DTIME: '2022-12-12 04:30:45',
+    APPROVED_AMT: 1224
+  });
+
+  newTxData.push({
+    APPROVED_DTIME: '2022-12-13 03:30:45',
+    APPROVED_AMT: 1224
+  });
+  newTxData.push({
+    APPROVED_DTIME: '2022-12-14 03:30:45',
+    APPROVED_AMT: 1224
+  });
+
+  newTxData.push({
+    APPROVED_DTIME: '2022-12-15 03:30:45',
+    APPROVED_AMT: 1224
+  });
+  newTxData.push({
+    APPROVED_DTIME: '2022-12-15 04:30:45',
+    APPROVED_AMT: 1224
+  });
+
+  newTxData.push({
+    APPROVED_DTIME: '2022-12-16 03:30:45',
+    APPROVED_AMT: 1224
+  });
+  newTxData.push({
+    APPROVED_DTIME: '2022-12-17 03:30:45',
+    APPROVED_AMT: 1224
+  });
+
+  newTxData.push({
+    APPROVED_DTIME: '2022-12-18 03:30:45',
+    APPROVED_AMT: 1224
+  });
+  newTxData.push({
+    APPROVED_DTIME: '2022-12-19 03:30:45',
+    APPROVED_AMT: 1224
+  });
+
+  // console.log('origin:', newTxData);
+  // console.log('flatten:', _.flatten(newTxData));
+
+  // console.log('day:', new Date('2022-12-11 03:30:45').getDay());
+  // console.log('day:', new Date('2022-12-12 03:30:45').getDay());
+  // console.log('day:', new Date('2022-12-13 03:30:45').getDay());
+  // console.log('day:', new Date('2022-12-14 03:30:45').getDay());
+  // console.log('day:', new Date('2022-12-15 03:30:45').getDay());
+  // console.log('day:', new Date('2022-12-16 03:30:45').getDay());
+  // console.log('day:', new Date('2022-12-17 03:30:45').getDay());
+
+  // console.log('day:', new Date('2022-12-18 03:30:45').getDay());
+  // console.log('day:', new Date('2022-12-19 03:30:45').getDay());
+
+  // console.log('hour:', new Date('2022-12-19 03:30:45').toUTCString().substr(17, 2));
+
+  // const dayGroup = _.groupBy(_.flatten(newTxData), (data) =>
+  //   new Date(data.APPROVED_DTIME).getDay()
+  // );
+
+  // console.log('day-group:', dayGroup);
+
+  console.log('startof-day:', moment(
+    new Date(new Date('2022-12-19 03:30:45').setUTCHours(0, 0, 0, 0))
+  ).startOf('day'));
+
+  console.log('startof-week:', moment(
+    new Date(new Date('2022-12-19 03:30:45').setUTCHours(0, 0, 0, 0))
+  ).startOf('week'));
+
+  console.log('startof-month:', moment(
+    new Date(new Date('2022-12-19 03:30:45').setUTCHours(0, 0, 0, 0))
+  ).startOf('month'));
+
+  // const thisMonth = '2022-12-16 03:30:45';
+  const lastMonth = '2022-11-01 03:30:45';
+  // console.log('this-last:', new Date(thisMonth) >= new Date(lastMonth))
+  // const recentDays = _.flatten(
+  //   newTxData.filter((i) => {
+  //     const comDate = new Date(i.APPROVED_DTIME) >= new Date(lastMonth);
+  //     console.log('compare date:', i.APPROVED_DTIME, ', com:', comDate);
+  //     return comDate;
+  //   })
+  // );
+
+  const dailyGroup = _.groupBy(
+    _.flatten(
+      newTxData.filter((i) => new Date(i.APPROVED_DTIME) >= new Date(lastMonth))
+    ),
+    (data) => {
+      console.log('startof-day, data:', data);
+      return moment(
+        new Date(new Date(data.APPROVED_DTIME).setUTCHours(0, 0, 0, 0))
+      ).startOf('day');
+    }
+  );
+
+  console.log('daily-group:', dailyGroup);
+
+  const weeklyGroup = _.groupBy(
+    _.flatten(
+      newTxData.filter((i) => new Date(i.APPROVED_DTIME) >= new Date(lastMonth))
+    ),
+    (data) =>
+      moment(
+        new Date(new Date(data.APPROVED_DTIME).setUTCHours(0, 0, 0, 0))
+      ).startOf('week')
+  );
+
+  console.log('weekly-group:', weeklyGroup);
+
+  const monthlyGroup = _.groupBy(
+    _.flatten(
+      newTxData.filter((i) => new Date(i.APPROVED_DTIME) >= new Date(lastMonth))
+    ),
+    (data) =>
+      moment(
+        new Date(new Date(data.APPROVED_DTIME).setUTCHours(0, 0, 0, 0))
+      ).startOf('month')
+  );
+
+  console.log('monthly-group:', monthlyGroup);
+  console.log('monthly-group-amt-sum:', _.sumBy(monthlyGroup[Object.keys(monthlyGroup)[0]], 'APPROVED_AMT'));
+}
+
+testMultiArray();
+function testMultiArray() {
+  const data1 = []; //[1, 2, 3, 4];
+  const data2 = [4, 5, 6];
+
+  console.log('data2:', JSON.stringify(data2));
+  console.log('data:', JSON.stringify(_.union(data2, data1)));
+  console.log('data:2', JSON.stringify(data2));
+
+  console.log('empty_0:', _.isEmpty(1000));
+  console.log('nil_0:', _.isNil(0));
 }

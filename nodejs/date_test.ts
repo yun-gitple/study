@@ -1,6 +1,6 @@
 import moment  from "moment/moment";
 import {differenceInCalendarDays} from "date-fns";
-import { createDeflate } from "zlib";
+import _ from 'lodash';
 
 function date_a() {
   const date0 = new Date('2022/07/01');       //KST로 인식
@@ -100,7 +100,7 @@ function testDiff() {
   console.log('diff:', days);
 }
 
-testWrongDate();
+// testWrongDate();
 function testWrongDate() {
   calDate(undefined);
   calDate(null);
@@ -109,4 +109,88 @@ function testWrongDate() {
 
 function calDate(date: any) {
   console.log('date:', new Date(date));
+}
+
+// testMoment();
+function testMoment() {
+  const ADD_KST_HOURS = 9;
+
+  const lastYear = moment().subtract(12, 'months').startOf('month')
+        .set({
+          hour: 0,
+          minute: 0,
+          second: 0
+        }).format();
+  console.log('lastYear:', lastYear);
+
+  const lastMonth = moment().subtract(1, 'months').startOf('month')
+        .set({
+          hour: ADD_KST_HOURS,
+          minute: 0,
+          second: 0
+        }).format();
+  console.log('lastMonth:', lastMonth);
+
+  const lastWeek = moment().subtract(1, 'weeks').startOf('week')
+    .set({
+      hour: 9,
+      minute: 0,
+      second: 0
+    }).format();
+  console.log('lastWeek:', lastWeek);
+}
+
+// testDateString();
+function testDateString() {
+  const date = new Date('2022-07-01');
+  console.log('1:', date);
+  console.log('2:', date.getDate());
+  console.log('3:', date.toDateString());
+  console.log('4:', date.toString());
+  console.log('5:', date.toTimeString());
+}
+
+// dateAndDuration();
+function dateAndDuration() {
+  const dateStr1 = '20221030134340';
+  const length = Number(dateStr1).toString().length;
+  console.log('len:', length);
+
+  const date1 = new Date(dateStr1.replace(/^(\d{4})(\d\d)(\d\d)(\d\d)(\d\d)(\d\d)$/, '$1-$2-$3 $4:$5:$6'));
+  console.log('date1:', date1);
+
+  const dateDur1 = date1.getTime() / 1000;
+  const loNow = _.now() / 1000;
+  const sec1Day = 86400;
+  
+  console.log('dateDur1:', dateDur1, ', loNow:', loNow);
+  console.log('loNow - dateDur1:', (loNow - dateDur1) / sec1Day);
+}
+
+getUntilMinutes();
+function getUntilMinutes() {
+  const date = new Date('2022-01-06T08:36:47.092Z'); //KST로 인식
+  // const date = new Date();
+  console.log('data:', date);
+  console.log('data:', date.toDateString());
+  console.log('data:', date.toTimeString());
+  console.log('data:', date.toLocaleDateString());
+  console.log('data:', date.toLocaleTimeString());
+  console.log('data:', date.toUTCString());
+
+  console.log('getFullYear:', date.getFullYear());
+  console.log('getMonth:', date.getMonth());
+  console.log('getDate:', date.getDate());
+  console.log('getDay:', date.getDay());
+  console.log('getHours:', date.getHours());
+  console.log('getMinutes:', date.getMinutes());
+  console.log('getTime:', date.getTime());
+}
+
+// testMinuteSeparation();
+function testMinuteSeparation() {
+  const minRange = 30;
+  for (let i = 0 ; i < 60 ; i++) {  
+    console.log('i:', i, ', ', Math.floor(i / minRange) * minRange);
+  }
 }

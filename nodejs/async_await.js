@@ -43,6 +43,26 @@ async function asyncPromise() {
 	 }
 }
 
-console.log('\n before async: ', threadId());
-asyncPromise();
-console.log('\n after async: ', threadId());
+// console.log('\n before async: ', threadId());
+// asyncPromise();
+// console.log('\n after async: ', threadId());
+
+main()
+
+function main() {
+    sub();
+}
+
+async function sub() {
+    console.trace('before sleep');
+    const resolved = await delay(5000);
+    console.trace('after sleep', resolved);
+}
+
+function delay(ms) {
+    return new Promise(resolve => {
+				console.log('before set timeout!');
+        setTimeout(() => resolve('done!!'), ms);
+				console.log('after set timeout!');
+    });
+}

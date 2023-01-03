@@ -52,7 +52,7 @@ function floatTest() {
   console.log('data:', data1);
 }
 
-testBig();
+// testBig();
 function testBig() {
   try {
     testIsBigInt(undefined);
@@ -88,3 +88,28 @@ function testIsNumber(bigData: any) {
   const numData = Number(bigData);
   console.log('num:', numData);
 }
+
+function getDecimalFromBigIntDivision(up: bigint, down: bigint): number {
+  const validDown = down;
+  if (validDown === BigInt(0)) {
+    return 0;
+  }
+
+  return Number(up * BigInt(100) / validDown) / 100;
+}
+
+// testFloat();
+function testFloat() {
+  const data1 = 9712764931n;
+  const data2 = 649119825n;
+  const total = data1 + data2;
+
+  console.log('number:', getDecimalFromBigIntDivision(data1, total));
+}
+
+testMax();
+function testMax() {
+  console.log('max:', Number.MAX_VALUE);
+  console.log('max:', BigInt.);
+}
+
