@@ -1,0 +1,33 @@
+@startuml diag performance
+
+title 베러&핀셋 토큰 발급
+skinparam sequenceMessageAlign center
+
+box "Better"
+actor "Better-Frontend" as FE
+participant "Better-Backend" as BE
+end box
+
+box "Finset" #LightBlue
+participant "Finset-Backend" as FBE #LightBlue
+end box
+
+== 사용자 등록 시작 ==
+FE -> BE: better_singup()
+BE --> FE: better_id
+FE -> BE: finset_singup()
+BE -> FBE : <color #red>https</color>://m.finset.io/singup \n<color #red>HEADER:{'X-FINSETN-USER-CI': userCI}</color>,\nBODY:PersonalInfo
+FBE --> BE: finset_id
+BE --> FE: finset_id
+== 사용자 등록 완료 ==
+
+== 사용자 로그인 시작 ==
+FE -> BE: better_login()
+BE --> FE: <color #blue>better_token</color>
+FE --> BE: finset_login()
+BE -> FBE: <color #red>https</color>://m.finset.io/login \n<color #red>HEADER:{'X-FINSETN-SIGN-IN-PATH':'BETTER','X-FINSETN-USER-CI':userCI}</color>,\nBODY: {finset_id}
+FBE --> BE: <color #blue>finset_token</color>
+BE --> FE: <color #blue>finset_token</color>
+== 사용자 로그인 완료 ==
+
+@enduml

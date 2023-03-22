@@ -68,20 +68,21 @@ class PromiseTest {
 // promTest.testAll();
 // promTest.testRace();
 
-const promise1 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    console.log('~~~ p1');
-    resolve("## p1");
-  }, 3000);
-});
-const promise2 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    console.log('~~~ p2');
-    resolve("## p2");
-  }, 1000);
-});
-
 async function testPromise1() {
+  const promise1 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('~~~ p1');
+      resolve("## p1");
+    }, 3000);
+  });
+  
+  const promise2 = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log('~~~ p2');
+      resolve("## p2");
+    }, 1000);
+  });
+
   const pResult = await Promise.all([promise1, promise2]).then((values) => {
     console.log(values);
     return 'jonghs got done!';
@@ -113,4 +114,58 @@ function testRetPromise() {
   console.log('3');
 }
 
-testRetPromise();
+// testRetPromise();
+async function testPromiseThen() {
+
+  console.log('1');
+  try {
+    const prom1 = await new Promise((resolve, reject) => setTimeout(resolve, 2000))
+      .then(() => {
+        console.log('prom1: is done!');
+        return 'prom1 done!';
+      })
+      .catch((err) => { 
+        throw new Error('prom1 ' + err); 
+      }); //console.log('prom1 ' + err));
+
+    console.log('prom1: ', prom1);
+    console.log('2');
+  } catch (err) {
+    console.log('caught prom1 ' + err);
+  }
+
+  try {
+    const prom2 = await new Promise((resolve, reject) => setTimeout(reject, 1000));
+    console.log('3');
+  } catch (err) {
+    console.log('prom2 ' + err);
+  }
+}
+
+// testPromThen();
+async function testPromThen() {
+  await testPromiseThen();
+}
+
+// testSleep();
+function sleep(ms: number) {
+  return new Promise((r) => setTimeout(r, ms));
+}
+async function testSleepAsync() {
+
+  console.log('sleep start', new Date());
+  await sleep(3000);
+  console.log('sleep end', new Date());
+}
+function testSleep() {
+  testSleepAsync();
+}
+
+innerAsync();
+function innerAsync() {
+  console.log('inner_async, start');
+  setTimeout(async () =>
+    await testSleepAsync()
+  );
+  console.log('inner_async, end');
+}

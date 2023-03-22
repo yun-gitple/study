@@ -380,7 +380,7 @@ function testSpendAnalysis() {
   console.log('monthly-group-amt-sum:', _.sumBy(monthlyGroup[Object.keys(monthlyGroup)[0]], 'APPROVED_AMT'));
 }
 
-testMultiArray();
+// testMultiArray();
 function testMultiArray() {
   const data1 = []; //[1, 2, 3, 4];
   const data2 = [4, 5, 6];
@@ -391,4 +391,13 @@ function testMultiArray() {
 
   console.log('empty_0:', _.isEmpty(1000));
   console.log('nil_0:', _.isNil(0));
+}
+
+testLodashGet();
+function testLodashGet() {
+  const data = {
+    data: { attributes: 'success'}
+  }
+
+  console.log('lodash_get, ', _.get(data, 'data.attributes', 'fail'));
 }

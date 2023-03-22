@@ -54,15 +54,20 @@ function main() {
 }
 
 async function sub() {
-    console.trace('before sleep');
-    const resolved = await delay(5000);
-    console.trace('after sleep', resolved);
+    console.trace('before sleep', new Date());
+		try {
+			const resolved = await delay(5000);
+			console.trace('after sleep ', resolved, ',', new Date());
+		} catch (err) {
+			console.log('error is caught? ', err);
+		}
 }
 
 function delay(ms) {
     return new Promise(resolve => {
-				console.log('before set timeout!');
-        setTimeout(() => resolve('done!!'), ms);
-				console.log('after set timeout!');
+				console.log('before set timeout!', new Date());
+        // setTimeout(() => resolve('done!!'), ms);
+        setTimeout(() => { throw new Error(' jongha !! ') }, ms);
+				console.log('after set timeout!', new Date());
     });
 }

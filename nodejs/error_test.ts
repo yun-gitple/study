@@ -30,7 +30,17 @@ function secondFunc() {
   console.log('error:', new Error('secondFunc()'));
 }
 
-firstFunc();
+// firstFunc();
 function firstFunc() {
   secondFunc();
+}
+
+testErrNMessage();
+function testErrNMessage() {
+  try {
+    throw new Error('사용자 정보가 존재하지 않습니다.');
+  } catch (err: any) {
+    console.log('err:', err);
+    console.log('err message', _.get(err, '사용자 정보가 존재하지 않습니다'));
+  }
 }

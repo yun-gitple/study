@@ -169,7 +169,7 @@ function testWrongIndex() {
   console.log('data:', data[5]);
 }
 
-testSameMerge();
+// testSameMerge();
 function testSameMerge() {
   const data1 = { 'a': 1, 'b': 2};
   const data2 = { 'b': 2, 'c': 3};
@@ -177,4 +177,19 @@ function testSameMerge() {
   _.merge(data1, data2);
 
   console.log('data:', data1);
+}
+
+testFinally();
+function testFinally() {
+  const data = [1,2,3,4,5,6,7,8,9,10];
+  for (const item of data) {
+    try {
+      console.log('item:', item);
+      if (item === 7) {
+        break;
+      }
+    } finally {
+      console.log('broke within finally!');
+    }
+  }
 }

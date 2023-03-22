@@ -1,5 +1,5 @@
 import moment  from "moment/moment";
-import {differenceInCalendarDays} from "date-fns";
+import {differenceInCalendarDays, format} from "date-fns";
 import _ from 'lodash';
 
 function date_a() {
@@ -167,7 +167,7 @@ function dateAndDuration() {
   console.log('loNow - dateDur1:', (loNow - dateDur1) / sec1Day);
 }
 
-getUntilMinutes();
+// getUntilMinutes();
 function getUntilMinutes() {
   const date = new Date('2022-01-06T08:36:47.092Z'); //KST로 인식
   // const date = new Date();
@@ -193,4 +193,9 @@ function testMinuteSeparation() {
   for (let i = 0 ; i < 60 ; i++) {  
     console.log('i:', i, ', ', Math.floor(i / minRange) * minRange);
   }
+}
+
+testFormat();
+function testFormat() {
+  console.log("data: ", format(new Date(), 'yyyyMMddHHmmss'));
 }
