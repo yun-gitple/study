@@ -1,5 +1,7 @@
 import { Injectable, ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Role } from './auth.role';
+import _ from 'lodash';
 
 @Injectable()
 export class LocalAuthGuard extends AuthGuard('local') {
@@ -17,6 +19,8 @@ export class LocalAuthGuard extends AuthGuard('local') {
 
   handleRequest(err, user, info) {
     console.log('~~~ [LocalAuthGuard] handleRequest: ', user);
+    // _.merge(user, { roles: Role.Admin });
+    user['roles'] = Role.Admin;
     return user;
   }
 }
